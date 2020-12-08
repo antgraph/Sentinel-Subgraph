@@ -1,0 +1,27 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Sentinel
+    network: mainnet
+    source:
+      address: "0xa44E5137293E855B1b7bC7E2C6f8cD796fFCB037"
+      abi: Sentinel
+      startBlock: 4847026
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Transfer
+        - Burn
+      abis:
+        - name: Sentinel
+          file: ./abis/Sentinel.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+        - event: Burn(indexed address,uint256)
+          handler: handleBurn
+      file: ./src/mapping.ts
